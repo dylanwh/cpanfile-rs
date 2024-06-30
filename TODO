@@ -1,0 +1,1 @@
+- support parsing cpanfile once we have a crate for CPAN::Meta::Spec files
