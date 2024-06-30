@@ -1,15 +1,13 @@
 use nom::{
+    branch::alt,
     bytes::complete::{tag, take_until, take_while1},
     character::complete::{line_ending, space0},
-    combinator::{opt},
-    multi::{many0},
-    IResult,
-    Finish,
-    branch::alt,
+    combinator::opt,
+    multi::many0,
+    Finish, IResult,
 };
 use std::collections::BTreeMap;
 use std::path::Path;
-
 
 pub type Properties<'a> = BTreeMap<&'a str, Option<&'a str>>;
 
@@ -29,7 +27,7 @@ pub struct Dist<'a> {
 
 pub type Dists<'a> = BTreeMap<&'a str, Dist<'a>>;
 
-pub fn parse(input : &str) -> Option<Dists> {
+pub fn parse(input: &str) -> Option<Dists> {
     let (s, dists) = file(input).finish().ok()?;
     eprintln!("s: {:?}", s);
 
@@ -72,8 +70,6 @@ fn dist(input: &str) -> IResult<&str, (&str, Dist)> {
         ),
     ))
 }
-
-
 
 fn level_2(input: &str) -> IResult<&str, ()> {
     let (input, _) = tag("  ")(input)?;
@@ -149,6 +145,3 @@ fn property(input: &str) -> IResult<&str, (&str, Option<&str>)> {
     let (input, _) = line_ending(input)?;
     Ok((input, (key, value)))
 }
-
-
-
